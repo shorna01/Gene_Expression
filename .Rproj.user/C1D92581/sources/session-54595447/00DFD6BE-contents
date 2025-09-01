@@ -1,0 +1,107 @@
+---
+  title: "Identification of Gene Expression Biomarkers in COVID-19 Patients Using Transcriptomic Analysis"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output:
+  word_document:
+  reference_docx: default
+---
+  
+  # Objective
+  
+  The objective of this study was to identify potential gene expression biomarkers associated with SARS-CoV-2 infection by analyzing RNA-Seq data from whole blood of 19 COVID-19 patients and 17 healthy controls. Analyses included data acquisition, preprocessing, differential expression analysis, protein-protein interaction (PPI) network construction, hub gene identification, and functional enrichment (Gene Ontology, KEGG, Reactome).
+
+# Dataset Details
+
+- **GEO Accession:** GSE270045  
+- **Study Title:** Up-regulation of olfactory receptors and neuronal-associated genes highlights complex immune and neuronal dysregulation in Long COVID patients  
+- **Number of Samples:** 36 (19 COVID-19 patients, 17 healthy controls)  
+- **Platform:** Illumina NovaSeq X Plus (Homo sapiens)  
+- **Study Design:** Case-control (patients vs healthy controls)  
+
+# Methods
+
+## Data Acquisition and Preprocessing
+
+1. Raw gene expression counts were downloaded from GEO Supplementary files.  
+2. Metadata was prepared with patient/control annotations.  
+3. Low-expression genes were filtered: only genes with expression >1 in ≥5 samples were retained.  
+4. PCA was performed to visualize clustering before and after batch effect correction.
+
+**Figure 1:** PCA plot before batch effect correction (insert PNG here)  
+
+**Figure 2:** PCA plot after batch effect correction (insert PNG here)  
+
+## Differential Expression Analysis
+
+DEGs were identified using DESeq2 with padj < 0.05 and |log2FC| > 1. Shrinkage of log2 fold changes was applied using `ashr`.
+
+**Figure 3:** Volcano plot (insert PNG here)  
+
+**Figure 4:** Heatmap of top 20 DEGs (insert PNG here)  
+
+**Table 1:** Top 15 up-regulated DEGs (insert table here from CSV)  
+
+**Table 2:** Top 15 down-regulated DEGs (insert table here from CSV)  
+
+## PPI Network and Hub Genes
+
+Hub genes were identified from the Cytoscape PPI network:  
+  `LHX5, IGF2, SLC22A18AS, C16orf71, PBX4, PKNOX2, FEZF2, RELN, MEIS2, PBX2`
+
+**Figure 5:** Cytoscape PPI network (insert screenshot PNG here)  
+
+**Figure 6:** Hub gene log2FC (insert PNG here)  
+
+## Functional Enrichment Analysis
+
+### All DEGs
+
+**Figure 7:** GO enrichment (all DEGs) (insert PNG here)  
+
+**Figure 8:** KEGG enrichment (all DEGs) (insert PNG here)  
+
+**Figure 9:** Reactome enrichment (all DEGs) (insert PNG here)  
+
+### Hub Genes
+
+**Figure 10:** GO enrichment (hub genes) (insert PNG here)  
+
+**Figure 11:** KEGG enrichment (hub genes) (insert PNG here)  
+
+**Figure 12:** Reactome enrichment (hub genes) (insert PNG here)  
+
+# Results
+
+- **Number of DEGs:** `r nrow(sig_DEGs)`  
+- Volcano plot (Figure 3) shows significant up- and down-regulated genes.  
+- Heatmap (Figure 4) shows top 20 DEGs.  
+- Top 15 up/down genes listed in Tables 1 & 2.  
+- Hub genes shown in Figures 5–6.  
+- Enrichment results shown in Figures 7–12.  
+
+# Discussion
+
+- Dysregulated immune and neuronal pathways identified in COVID-19 patients.  
+- Hub genes (IGF2, RELN, FEZF2) may serve as candidate biomarkers.  
+- KEGG and Reactome pathway analysis highlights immune signaling and olfactory pathways.  
+
+# Conclusion
+
+- RNA-Seq analysis identified DEGs, hub genes, and enriched pathways differentiating COVID-19 patients from controls.  
+- Hub genes and functional enrichment highlight candidate biomarkers for SARS-CoV-2 infection.  
+
+# References
+
+1. Love MI, Huber W, Anders S. DESeq2: Moderated estimation of fold change and dispersion for RNA-seq data. *Genome Biol.* 2014;15:550.  
+2. Yu G, Wang LG, Han Y, He QY. clusterProfiler: an R package for comparing biological themes among gene clusters. *OMICS.* 2012;16(5):284–287.  
+3. Shannon P, et al. Cytoscape: A Software Environment for Integrated Models of Biomolecular Interaction Networks. *Genome Res.* 2003;13:2498–2504.  
+4. STRING Database: https://string-db.org  
+
+# Supplementary Files
+
+- CSV/TSV files: `DEGs_full.csv`, `Significant_DEGs.csv`, `Top15_Up regulated.csv`, `Top15_Down regulated.csv`, `GO_All_DEGs.csv`, `KEGG_Top10.csv`, `Reactome_Top10.csv`, `Gene_Ontology_HubGenes.csv`, `KEGG_HubGenes.csv`, `Reactome_HubGenes.csv`  
+- Figures: PCA plots, volcano plot, heatmap, hub gene barplot, GO/KEGG/Reactome enrichment plots, Cytoscape PPI network screenshot
+
+
+rmarkdown::render("report.Rmd", output_file = "COVID19_RNASeq_Report.docx")
